@@ -9,7 +9,8 @@ var money,
     yearReg,
     monthReg,
     dayReg,
-    reg;
+    reg,
+    sum;
 
 // Объект, в который будут помещаться введенные пользователем данные.
 var appData = {
@@ -64,19 +65,30 @@ function checkDate() {
     }
 }
 
+// Функция рассчета суммы всех обязательных трат.
+function sumCosts() {
+    sum = 0;
+    for (let cost of Object.values(appData.expenses)) {
+      sum += cost;
+    }
+    return sum;
+}
+
 checkMoney();
 
 checkDate();
 
 checkCosts();
+checkCosts();
+
+sumCosts(appData.expenses);
 
 // Расчет ежедневных расходов с учетом вычета обязательных платежей. (Округление в меньшую сторону.)
-for (var key in appData.expenses) {
-    dailyExpenses = Math.floor((appData.budget - appData.expenses[key])/30);
-}
+dailyExpenses = Math.floor((appData.budget - sum)/30);
 
-window.alert('Ваш бюджет на день : '+ dailyExpenses + ' рублей.');
+window.alert('Ваш бюджет на день : '+ dailyExpenses + ' руб.');
 
 console.log(dailyExpenses);
 console.log(appData);
 console.log(correctDate);
+console.log(sum);
